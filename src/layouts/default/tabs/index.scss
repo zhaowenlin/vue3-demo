@@ -1,0 +1,22 @@
+@import '/@/assets/styles/index.scss';
+.#{$namespace}-layout-header-tag {
+    padding-left: 4px;
+    height: 40px;
+    &--fixed {
+        top: 48px;
+        right: 0;
+        position: fixed;
+        z-index: 10;
+    }
+    &--light {
+        background-color: $white;
+    }
+    &--dark {
+        background-color: $white;
+    }
+    .el-tag {
+        margin-top: 4px;
+        margin-right: 4px;
+        cursor: pointer;
+    }
+}

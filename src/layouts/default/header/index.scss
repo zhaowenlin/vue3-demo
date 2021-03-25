@@ -1,0 +1,223 @@
+@import '../../../assets/styles/index.scss';
+.#{$namespace}-layout-header {
+  display: flex;
+  height: $header-height;
+  padding: 0;
+  margin-left: -1px;
+  line-height: $header-height;
+  color: $white;
+  background: $white;
+  align-items: center;
+  justify-content: space-between;
+  &-left {
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+  .aticon {
+    font-size: 16px;
+  }
+
+  &--fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: $layout-header-fixed-z-index;
+    width: 100%;
+  }
+
+  &-logo {
+    height: $header-height;
+    min-width: 192px;
+    padding: 0 10px;
+    font-size: 14px;
+
+    img {
+      width: $logo-width;
+      height: $logo-width;
+      margin-right: 2px;
+    }
+  }
+
+  &-left {
+    display: flex;
+    height: 100%;
+    align-items: center;
+
+    .#{$namespace}-layout-header-trigger {
+      display: flex;
+      height: 100%;
+      padding: 1px 10px 0 16px;
+      cursor: pointer;
+      align-items: center;
+      font-size: 20px;
+      color: $header-trigger-icon-color;
+
+      .aticon {
+        font-size: 16px;
+      }
+
+      &.light {
+        &:hover {
+          background: $header-light-bg-hover-color;
+        }
+      }
+
+      &.dark {
+        &:hover {
+          background: $header-dark-bg-hover-color;
+        }
+      }
+    }
+  }
+  &--light {
+    background: $white;
+    border-bottom: 1px solid $header-light-bottom-border-color;
+    border-left: 1px solid $header-light-bottom-border-color;
+
+    .#{$namespace}-layout-header-logo {
+      color: $text-color;
+
+      &:hover {
+        background: $header-light-bg-hover-color;
+      }
+    }
+
+    .#{$namespace}-layout-header-action {
+      &__item {
+        color: $text-color;
+
+        .app-iconify {
+          padding: 0 10px;
+          font-size: 16px !important;
+        }
+
+        &:hover {
+          background: $header-light-bg-hover-color;
+        }
+      }
+
+      &-icon,
+      span[role='img'] {
+        color: $text-color;
+      }
+    }
+  }
+
+  &--dark {
+    background: $header-dark-bg-color;
+
+    .#{$namespace}-layout-header-trigger {
+      color: $transport-gray;
+    }
+
+    .#{$namespace}-layout-breadcrumb .el-breadcrumb__inner{
+      color: $white;
+      &:hover {
+        color: $light-gray;
+      }
+    }
+
+    .#{$namespace}-layout-header-logo {
+      &:hover {
+        background: $header-dark-bg-hover-color;
+      }
+    }
+
+    .#{$namespace}-layout-header-action {
+      &__item {
+        &:hover {
+          background: $header-dark-bg-hover-color;
+        }
+      }
+    }
+  }
+
+  &-action {
+    display: flex;
+    min-width: 180px;
+    align-items: center;
+
+    &__item {
+      display: flex !important;
+      height: $header-height;
+      padding: 0 2px;
+      font-size: 1.2em;
+      cursor: pointer;
+      align-items: center;
+
+      .ant-badge {
+        height: $header-height;
+        line-height: $header-height;
+      }
+
+      .ant-badge-dot {
+        top: 10px;
+        right: 2px;
+      }
+    }
+
+    span[role='img'] {
+      padding: 0 8px;
+    }
+  }
+
+
+  .#{$namespace}-header-user-dropdown {
+    height: $header-height;
+    padding: 0 0 0 10px;
+    padding-right: 10px;
+    overflow: hidden;
+    font-size: 12px;
+    cursor: pointer;
+    align-items: center;
+  
+    &:hover {
+      background: $header-light-bg-hover-color;
+    }
+  
+    img {
+      width: 26px;
+      height: 26px;
+      margin-right: 12px;
+    }
+  
+    &__header {
+      border-radius: 50%;
+    }
+  
+    &__name {
+      font-size: 14px;
+    }
+  
+    &--dark {
+      position: relative;
+      &:hover {
+        background: $header-dark-bg-hover-color;
+      }
+      .#{$namespace}-header-user-dropdown__name {
+        color: $white;
+      }
+  
+      .#{$namespace}-header-user-dropdown__desc {
+        color: $white;
+      }
+    }
+  
+    &--light {
+      .#{$namespace}-header-user-dropdown__name {
+        color: $text-color;
+      }
+  
+      .#{$namespace}-header-user-dropdown__desc {
+        color: $text-color;
+      }
+    }
+  
+    &-dropdown-overlay {
+      .ant-dropdown-menu-item {
+        min-width: 160px;
+      }
+    }
+  }
+}

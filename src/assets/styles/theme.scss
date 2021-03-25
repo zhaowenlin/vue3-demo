@@ -1,0 +1,16 @@
+@import './variable.scss';
+//  header
+$header-light-bottom-border-color: #d9d9d9;
+$header-trigger-icon-color: #606266;
+$header-dark-bg-hover-color: $dark-blue;
+$header-light-bg-hover-color: #f6f6f6;
+$header-height: 48px;
+$logo-width: 32px;
+$layout-header-fixed-z-index: 500;
+$header-dark-bg-color:#394664;
+$header-dark-bg-hover-color: $dark-blue;
+$header-light-desc-color: $light-gray;
+// menu
+$menu-dark-bg-color: #304156;
+$menu-light-bg-color: $white;
+$menu-dark-submenu-bg-color: #3c4d62

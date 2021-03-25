@@ -1,0 +1,52 @@
+
+@import './variable.scss';
+body,
+html,
+#app,
+.base-layout {
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto,
+    helvetica neue, Arial, noto sans, sans-serif, apple color emoji,
+    segoe ui emoji, segoe ui symbol, noto color emoji;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  background-color: #fff;
+  font-feature-settings: 'tnum', 'tnum';
+}
+
+.layout-has-sider {
+  flex-direction: row;
+}
+.flex {
+  display: flex;
+}
+
+.split-line {
+  border-bottom: 1px solid #eee;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.base-font-color {
+  color: $text-color;
+}
+
+.base-layout {
+  box-sizing: border-box;
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  min-height: 0;
+  background: #f0f2f5;
+  &.base-layout-has-sider {
+    flex-direction: row;
+  }
+}

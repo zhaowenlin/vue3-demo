@@ -1,0 +1,78 @@
+@import '../../../assets/styles/index.scss';
+.#{$namespace}-layout-menu:not(.el-menu--collapse) {
+    width: 210px; 
+}
+.#{$namespace}-layout-menu {
+    top: $header-height;
+    height: calc(100% - 48px);
+    position: fixed;
+    left: 0;
+
+    .menu-icon {
+        margin-right: 6px;
+    }
+    
+    &--dark {
+        background: $menu-dark-bg-color;
+        border-right: 1px solid $menu-dark-bg-color;
+        .el-submenu__title, .menu-icon {
+            color: rgba(255,255,255,.7);
+        }
+        .el-submenu__title, .board-menu  {
+            &:hover {
+                color: #fff;
+                background-color: $menu-dark-bg-color;
+                
+            }
+        }
+        .board-menu {
+            background: $menu-dark-bg-color;
+            color: rgba(255,255,255,.7);
+            &.is-active {
+                color: $white;
+                background-color: #0960bd;
+            }
+            &:hover, &:focus {
+                color: $white;
+                background-color: $menu-dark-submenu-bg-color;
+            }
+            &:focus {
+                background-color: $blue !important
+            }
+        }
+        .el-menu--inline  {
+            background-color: $menu-dark-submenu-bg-color;
+            .el-menu-item {
+                color: rgba(255,255,255,.7);
+                &.is-active {
+                    color: $white;
+                    background-color: #0960bd;
+                }
+                &:hover, &:focus {
+                    color: $white;
+                    background-color: $menu-dark-submenu-bg-color;
+                }
+                &:focus {
+                    background-color: $blue !important
+                }
+            }
+        }
+        
+    }
+    &--light {
+        background: $menu-light-bg-color;
+        
+        .el-menu-item, .el-submenu__title {
+            &:hover {
+                color: $blue;
+                background-color: $white;
+                .menu-icon {
+                    color: $blue;
+                }
+            }
+            &.is-active {
+                background-color: #ecf5ff;
+            }
+        }
+    }
+}

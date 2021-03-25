@@ -1,0 +1,26 @@
+@import './variable.scss';
+@mixin is-plain($color, $background, $border-color) {
+  color: $color;
+  background: $background;
+  border-color: $border-color;
+}
+
+.green-is-plain {
+  @include is-plain($green, $transport-green, $light-green);
+}
+
+.yellow-is-plain {
+  @include is-plain($yellow, $transport-yellow, $light-yellow);
+}
+
+.red-is-plain {
+  @include is-plain($red, $transport-red, $light-red);
+}
+
+.blue-is-plain {
+  @include is-plain($blue, $transport-blue, $light-blue);
+}
+
+.gray-is-plain {
+  @include is-plain($gray, $transport-gray, $light-gray);
+}

@@ -1,0 +1,6 @@
+server:
+  PORT: 3000
+  HOST: '0.0.0.0'
+  NAMESPACE: <%=namespace%>
+  CHROME_PATH: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+client:

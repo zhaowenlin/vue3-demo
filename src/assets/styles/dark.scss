@@ -1,0 +1,7 @@
+@import './variable.scss';
+
+.#{$namespace}-app-land {
+  &.dark-layout {
+    background: $black;
+  }
+}
