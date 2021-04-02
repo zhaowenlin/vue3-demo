@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-layout">
     <RouterView>
       <template #default="{ Component, route }">
         <transition
@@ -15,10 +15,7 @@
           mode="out-in"
           appear
         >
-          <keep-alive v-if="openCache" :include="getCaches">
-            <component :is="Component" v-bind="getKey(Component, route)" />
-          </keep-alive>
-          <component :is="Component" v-else v-bind="getKey(Component, route)" />
+          <component :is="Component" v-bind="getKey(Component, route)" />
         </transition>
       </template>
     </RouterView>
@@ -34,7 +31,7 @@ import { getTransitionName } from './transition'
 export default defineComponent({
   name: 'PageLayout',
   setup() {
-    const { getCaches } = useCache(true)
+    const { getCaches } = useCache(false)
     const openCache = false
 
     const { getBasicTransition, getEnableTransition } = useTransitionSetting()
@@ -50,3 +47,22 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="scss">
+@import '/@/assets/styles/variable.scss';
+.#{namespace}-layout-content {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  &.fixed {
+    width: 1200px;
+    margin: 0 auto;
+  }
+
+  &-loading {
+    position: absolute;
+    top: 200px;
+    z-index: $page-loading-z-index;
+  }
+}
+</style>

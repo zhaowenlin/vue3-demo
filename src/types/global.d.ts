@@ -1,13 +1,12 @@
 declare interface Fn<T = any, R = T> {
   (...arg: T[]): R
 }
-
+type RefElement = Nullable<HTMLElement>
 declare interface PromiseFn<T = any, R = T> {
   (...arg: T[]): Promise<R>
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
-declare interface IObj<T = any> {
+declare interface NObj<T = any> {
   [key: string]: T
   [key: number]: T
 }

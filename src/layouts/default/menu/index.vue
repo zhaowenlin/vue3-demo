@@ -1,8 +1,8 @@
 <template>
-  <div :style="getStyle" class="flex">
+  <div :style="getStyle" :class="getMenuClass">
     <el-scrollbar id="menuList">
       <el-menu
-        :class="getMenuClass"
+
         :collapse="isCollapse"
         :default-active="activeIndex"
         @select="handleSelect"

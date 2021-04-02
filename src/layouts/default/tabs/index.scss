@@ -1,7 +1,10 @@
 @import '/@/assets/styles/index.scss';
 .#{$namespace}-layout-header-tag {
+    margin-left: 1px;
+    transition: width 0.2s;
     padding-left: 4px;
     height: 40px;
+    border-bottom: 1px solid $border-color-base;
     &--fixed {
         top: 48px;
         right: 0;

@@ -11,14 +11,6 @@ const { getFullContent } = useFullContent()
 
 const { getShowLogo } = useRootSetting()
 
-const getShowFullHeaderRef = computed(() => {
-  return !unref(getFullContent) && unref(getShowHeader)
-})
-
-const getShowInsetHeaderRef = computed(() => {
-  const need = !unref(getFullContent) && unref(getShowHeader)
-  return need
-})
 
 // Get header configuration
 const getHeaderSetting = computed(() => appStore.getProjectConfig.headerSetting)
@@ -29,6 +21,14 @@ const getShowHeader = computed(() => unref(getHeaderSetting).show)
 
 const getFixed = computed(() => unref(getHeaderSetting).fixed)
 
+const getShowFullHeaderRef = computed(() => {
+  return !unref(getFullContent) && unref(getShowHeader)
+})
+
+const getShowInsetHeaderRef = computed(() => {
+  const need = !unref(getFullContent) && unref(getShowHeader)
+  return need
+})
 const getUnFixedAndFull = computed(
   () => !unref(getFixed) && !unref(getShowFullHeaderRef)
 )

@@ -27,6 +27,7 @@ module.exports = {
     camelcase: ['error', { properties: 'never' }],
     semi: ['error', 'never'],
     indent: ['error', 2, { SwitchCase: 1 }],
+    '@typescript-eslint/ban-ts-ignore': 'off',
     'object-curly-spacing': ['error', 'always'],
     "@typescript-eslint/explicit-function-return-type": "off",
     '@typescript-eslint/explicit-module-boundary-types': 'off',

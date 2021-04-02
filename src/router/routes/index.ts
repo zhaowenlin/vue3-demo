@@ -1,19 +1,11 @@
-import { AppRouteRecordRaw, RouterView } from '/@/router/types'
+import { AppRouteRecordRaw } from '/@/router/types'
 
 import { PageEnum } from '/@/enums/pageEnum'
-import { LAYOUT } from '../constant'
-import { h } from 'vue'
-const RouterViewHoc: RouterView = {
-  name: 'RouterViewHoc',
-  render() {
-    return h('router-view')
-  }
-}
-
+import { getParentLayout, LAYOUT } from '../constant'
 const home: AppRouteRecordRaw = {
   path: '/home',
-  name: 'Home',
-  component: RouterViewHoc,
+  name: 'HomePage',
+  component: getParentLayout('HomePage'),
   redirect: '/home/index',
   meta: {
     icon: 'el-icon-location',
@@ -37,7 +29,7 @@ const testRoute: AppRouteRecordRaw = {
   path: '/test',
   name: 'test',
   redirect: '/test/index',
-  component: RouterViewHoc,
+  component: getParentLayout('TestPage'),
   meta: {
     icon: 'el-icon-setting',
     title: 'test'

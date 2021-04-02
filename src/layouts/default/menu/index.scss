@@ -1,26 +1,34 @@
 @import '../../../assets/styles/index.scss';
-.#{$namespace}-layout-menu:not(.el-menu--collapse) {
-    width: 210px; 
-}
+
 .#{$namespace}-layout-menu {
     top: $header-height;
     height: calc(100% - 48px);
     position: fixed;
+    z-index: 10;
     left: 0;
-
+    .el-menu:not(.el-menu--collapse) {
+        width: 210px;
+    }
+    .el-menu {
+        border-right: 1px solid $border-color-base;
+    }
     .menu-icon {
         margin-right: 6px;
-    }
-    
+    }   
+
     &--dark {
         background: $menu-dark-bg-color;
-        border-right: 1px solid $menu-dark-bg-color;
+
+        .el-menu{
+            border: 1px solid $menu-dark-bg-color;
+        }
+
         .el-submenu__title, .menu-icon {
             color: rgba(255,255,255,.7);
         }
         .el-submenu__title, .board-menu  {
             &:hover {
-                color: #fff;
+                color: $white;
                 background-color: $menu-dark-bg-color;
                 
             }
@@ -34,26 +42,33 @@
             }
             &:hover, &:focus {
                 color: $white;
-                background-color: $menu-dark-submenu-bg-color;
+                background-color: $menu-dark-bg-color;
             }
             &:focus {
                 background-color: $blue !important
             }
         }
-        .el-menu--inline  {
-            background-color: $menu-dark-submenu-bg-color;
-            .el-menu-item {
-                color: rgba(255,255,255,.7);
-                &.is-active {
-                    color: $white;
-                    background-color: #0960bd;
-                }
-                &:hover, &:focus {
-                    color: $white;
-                    background-color: $menu-dark-submenu-bg-color;
-                }
-                &:focus {
-                    background-color: $blue !important
+        .el-menu {
+            background: $menu-dark-bg-color;
+            color: rgba(255,255,255,.7);
+            &.el-menu--inline  {
+                background-color: $menu-dark-submenu-bg-color;
+                .el-menu-item {
+                    color: rgba(255,255,255,.7);
+                    &.is-active {
+                        color: $white;
+                        background-color: #0960bd;
+                        &:hover {
+                            background-color: #0960bd;
+                        }
+                    }
+                    &:hover, &:focus {
+                        color: $white;
+                        background-color: $menu-dark-submenu-bg-color;
+                    }
+                    &:focus {
+                        background-color: #0960bd !important
+                    }
                 }
             }
         }

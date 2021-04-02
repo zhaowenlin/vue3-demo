@@ -46,6 +46,7 @@ export interface RouteMeta {
   hideMenu?: boolean
 }
 export interface RouterView {
+  parentView: boolean
   name: string
   render?: any
 }

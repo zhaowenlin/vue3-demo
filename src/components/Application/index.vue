@@ -27,7 +27,7 @@ export default defineComponent({
       h(
         'div',
         {
-          className: 'base-layout'
+          className: 'base-layout base-default-layout'
         },
         slots.default?.()
       )

@@ -1,0 +1,50 @@
+{
+    "vetur.format.defaultFormatterOptions": {
+        "js-beautify-html": {
+            "wrap_attributes": "force-expand-multiline"
+        },
+        "prettier": {
+            "arrowParens": ["error", "as-needed"],
+            "singleQuote": false,
+            "semi": false,
+            "trailingComma": "none"
+        },
+        "prettyhtml": {
+            "printWidth": 80
+        }
+    },
+    "prettier.arrowParens":  "avoid",
+    "prettier.trailingComma": "none",
+    "prettier.singleQuote": true,
+    "prettier.semi": false,
+    "prettier.jsxBracketSameLine": true,
+    "editor.formatOnType": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "[javascript]": {
+        "editor.formatOnSave": false
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "octref.vetur"
+    },
+    //保存自动格式化
+  "editor.formatOnSave": false,
+  //配置 ESLint 检查的文件类型
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue-html",
+    {
+      "language": "vue",
+      "autoFix": true
+    },
+    {
+      "language": "html",
+      "aotoFix": true
+    }
+  ],
+  "eslint.run": "onSave",
+  "files.autoSave": "afterDelay",
+  "vetur.validation.template": false
+}

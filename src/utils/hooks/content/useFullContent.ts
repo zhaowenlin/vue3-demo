@@ -2,13 +2,13 @@ import { computed, unref } from 'vue'
 
 import { appStore } from '/@/store/modules/app'
 
-import router from '/@/router'
+import router from '/@/router/index'
 
 /**
  * @description: Full screen display content
  */
 export const useFullContent = () => {
-  const { currentRoute } = router
+  const currentRoute = router && router.currentRoute
 
   // Whether to display the content in full screen without displaying the menu
   const getFullContent = computed(() => {

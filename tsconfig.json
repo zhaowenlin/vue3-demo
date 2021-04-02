@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
-    "strictFunctionTypes": false,
     "allowJs": true,
     "resolveJsonModule": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "incremental": true,
     "noImplicitAny": false,
-    "skipLibCheck": true,
 
     "target": "esnext",
     "module": "esnext",
     // 严格模式
     "strict": true,
+    "strictFunctionTypes": false,
+    "strictNullChecks": true,
     "jsx": "preserve",
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -26,6 +26,7 @@
       "webpack-env"
     ],
     "typeRoots": ["./node_modules/@types/", "./types"],
+    "skipLibCheck": true,
     "paths": {
       "/@/*": [
         "./src/*"
@@ -44,7 +45,5 @@
     "types/**/*.d.ts",
     "types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["./node_modules/**/*"]
 }
