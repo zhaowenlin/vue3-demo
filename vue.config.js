@@ -32,7 +32,6 @@ function authMiddleware(ast, authKey, method) {
       exp: attrExp,
       block: ast
     }]
-    console.log(attrExp, '=======')
     ast.if = attrExp
     return ast
   }
@@ -42,7 +41,7 @@ function authMiddleware(ast, authKey, method) {
   return ast
 }
 module.exports = {
-  publicPath: '/',
+  publicPath: '/demo',
   devServer: {
     port: PORT,
     host: HOST || '0.0.0.0',

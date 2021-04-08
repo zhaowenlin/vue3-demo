@@ -5,6 +5,7 @@
     padding-left: 4px;
     height: 40px;
     border-bottom: 1px solid $border-color-base;
+
     &--fixed {
         top: 48px;
         right: 0;
@@ -15,11 +16,18 @@
         background-color: $white;
     }
     &--dark {
-        background-color: $white;
+        background-color: $light-black;
+        border-bottom: 1px solid $light-black;
+
+        .el-tag {
+            &--dark {
+                background-color: $menu-dark-active-bg-color;
+                border-color: $menu-dark-active-bg-color
+            }
+        }
     }
     .el-tag {
         margin-top: 4px;
         margin-right: 4px;
-        cursor: pointer;
     }
 }

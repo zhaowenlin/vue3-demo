@@ -57,9 +57,9 @@
                     color: rgba(255,255,255,.7);
                     &.is-active {
                         color: $white;
-                        background-color: #0960bd;
+                        background-color: $menu-dark-active-bg-color;
                         &:hover {
-                            background-color: #0960bd;
+                            background-color: $menu-dark-active-bg-color;
                         }
                     }
                     &:hover, &:focus {
@@ -67,7 +67,7 @@
                         background-color: $menu-dark-submenu-bg-color;
                     }
                     &:focus {
-                        background-color: #0960bd !important
+                        background-color: $menu-dark-active-bg-color !important
                     }
                 }
             }
@@ -86,7 +86,7 @@
                 }
             }
             &.is-active {
-                background-color: #ecf5ff;
+                background-color: $menu-light-active-bg-color;
             }
         }
     }

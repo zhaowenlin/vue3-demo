@@ -65,10 +65,9 @@ export default defineComponent({
   position: relative;
   flex: 1 1 auto;
   min-height: 0;
-  transition: width 0.33;
 
   &--dark {
-    background-color: $light-black;
+    background-color: $black;
   }
 
   &.fixed {

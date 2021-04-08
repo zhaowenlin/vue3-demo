@@ -11,7 +11,6 @@ import 'dayjs/locale/zh-cn'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 
 const app = createApp(App)
-debugger
 app.use(ElementUI, { locale })
 app.use(perfintechUi, {
   prefix: 'api',

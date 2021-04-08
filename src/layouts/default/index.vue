@@ -3,7 +3,7 @@
     <LayoutHeader fixed />
     <div class="base-layout base-layout-has-sider">
       <Menu />
-      <div :class="['base-layout', `${prefixCls}__main`]">
+      <div :class="getClass">
         <Tabs fixed />
         <LayoutContent />
       </div>
@@ -12,13 +12,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, unref } from 'vue'
 import Menu from './menu/index.vue'
 import LayoutHeader from './header/index.vue'
 import LayoutContent from './content/index.vue'
 import Tabs from './tabs/index.vue'
 
 import { useDesign } from '/@/utils/hooks/web/useDesign'
+import { useMenuSetting } from '/@/utils/hooks/menu/useMenuSetting'
 
 export default defineComponent({
   name: 'DefaultLayout',
@@ -30,8 +31,20 @@ export default defineComponent({
   },
   setup() {
     const { prefixCls } = useDesign('default-layout')
+    const { getMenuTheme } = useMenuSetting()
+    const getClass = computed(()=> {
+      const theme = unref(getMenuTheme)
+      return [
+        `${prefixCls}__main`,
+        'base-layout',
+        {
+          [`${prefixCls}--${theme}`]: theme
+        }]
+    })
 
     return {
+      getClass,
+      theme: getMenuTheme,
       prefixCls
     }
   }
@@ -49,10 +62,13 @@ export default defineComponent({
   > .main-layout {
     min-height: 100%;
   }
-
+  &--dark {
+    background-color: $black;
+  }
   &__main {
     overflow-x: hidden;
     margin-left: 1px;
+
   }
 }
 </style>

@@ -1,24 +1,17 @@
 <template>
   <el-card class="form-card">
-    <demo>1111</demo>
-    <el-button>el-button</el-button>
-    <n-demo>demo-click</n-demo>
     <n-form
       ref="testFormRef"
       v-model="formData"
-      class-name="base-form"
       footer-align="left"
       :form-list="formList"
-      :grid="1"
+      :grid="3"
       @submit="submit"
     >
       <template #prepend>
         <div class="split-line form-title">普通表单</div>
       </template>
     </n-form>
-    <div>
-      12321312312
-    </div>
 
     <NTablePage
       url="/table"
@@ -65,39 +58,16 @@
   </el-card>
 </template>
 <script lang="ts">
-import { useDesign } from '/@/utils/hooks/web/useDesign'
 import { computed, defineComponent, reactive, ref } from 'vue'
 import { NTablePage, NForm } from 'perfintech'
-import  Demo  from '/@/components/Demo/index.vue'
-
 export default defineComponent({
   name: 'HelloWorld',
   components: {
     NForm,
-    Demo,
     // NDemo,
     NTablePage
   },
-  setup(props) {
-    // const { ctx } = getCurrentInstance()
-    const { prefixCls } = useDesign('app-logo')
-    debugger
-    // console.log(NDemo,'===',NForm)
-
-    const clickme = () => {
-      // ctx.$ajax.post(
-      //   {
-      //     url: './test'
-      //   },
-      //   {
-      //     confirm: true,
-      //     message: '你确定要？'
-      //   }
-      // )
-
-      console.log('00000', props, prefixCls)
-    }
-
+  setup() {
     //  getCurrentInstance().proxy
     const region = ref('shanghai')
 
@@ -202,7 +172,6 @@ export default defineComponent({
 
     const submit = (value)=> {
       console.log(value)
-      debugger
 
     }
     const handleClick = (values)=> {
@@ -242,8 +211,6 @@ export default defineComponent({
       formData,
       region,
       test,
-      prefixCls,
-      clickme,
       formList,
       testRef
     }
