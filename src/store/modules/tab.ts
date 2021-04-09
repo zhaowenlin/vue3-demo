@@ -146,7 +146,8 @@ class Tab extends VuexModule {
   @Mutation
   commitCloseTab(route: RouteLocationNormalizedLoaded): void {
     const { fullPath, meta: { affix } = {} } = route
-    if (affix) return
+    const currentRoute = router.currentRoute.value
+    if (affix && fullPath === currentRoute.fullPath && this.tabsState.length === 1) return
     const index = this.tabsState.findIndex(item => item.fullPath === fullPath)
     index !== -1 && this.tabsState.splice(index, 1)
   }
@@ -210,6 +211,19 @@ class Tab extends VuexModule {
     }
     const redo = useRedo()
     await redo()
+  }
+
+  @Action
+  clickTabAction(tab: RouteLocationNormalizedLoaded) {
+    const route = router.currentRoute.value
+    const { path, fullPath } = route
+    const { replace } = router
+
+    if ((tab.fullPath || tab.path) === (fullPath || path)) {
+      return
+    }
+
+    replace(tab)
   }
 
   @Action

@@ -6,6 +6,7 @@
       closable
       :disable-transitions="false"
       :effect="tag.path === currentRoute.path ? 'dark' : 'plain'"
+      @click="changeRouter(tag)"
       @close="handleClose(tag)"
     >
       {{ tag.meta.title }}
@@ -56,9 +57,14 @@ export default defineComponent({
       tabStore.closeTabAction(tag)
     }
 
+    function changeRouter(tag: RouteLocationNormalizedLoaded) {
+      tabStore.clickTabAction(tag)
+    }
+
     // 当前路由
     const { currentRoute } = useRouter()
     return {
+      changeRouter,
       currentRoute,
       tags,
       handleClose,

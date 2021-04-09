@@ -2242,8 +2242,8 @@
         "affectsGlobalScope": false
       },
       "./src/store/modules/tab.ts": {
-        "version": "b540a32e02ac5b31dedd46c958cb228c87655d6b8ec3fb5ddd833e8027961640",
-        "signature": "6aaa2be428f668edc6b3089dfa24850a338d5d8591b9dd50130e46796652a3b4",
+        "version": "d207bc316020ad5d3d921fe2534a97f5c1e8efad9a6787711dbdda1f84f98c90",
+        "signature": "a300c2f5a3df46da521a5909a92c75ba01e14cff0045436c6260ec883c69f7c1",
         "affectsGlobalScope": false
       },
       "./src/utils/hooks/root/userootsetting.ts": {
@@ -2288,7 +2288,7 @@
       },
       "./src/layouts/default/menu/index.vue.ts": {
         "version": "2840f585eac2596438afa0071611f962fd32fc27e9de217e2f36b9579b74f747",
-        "signature": "945cd032737c49a630df3c08df8b1b5a91183bfb0e33164c59f25fbbe7e747db",
+        "signature": "977a7fb80fa034da52e93940dd6c5355ba8c914e14dfe4146a41364036fba2ec",
         "affectsGlobalScope": false
       },
       "./node_modules/vue-types/dist/types.d.ts": {
@@ -2422,8 +2422,8 @@
         "affectsGlobalScope": false
       },
       "./src/layouts/default/tabs/index.vue.ts": {
-        "version": "0f82214355688c15e6d9d1a193a168147ab98462f83a6d45a9408568302b0687",
-        "signature": "b31d4f3495244ba22a9882c958a6a5b1ff1cad47667a810335b851b62a18b1d9",
+        "version": "37170b143b22ffe23ad47b51849fb754e3649df9845353823e344537c8f8063a",
+        "signature": "0c4f8c11ddde926d7b22dbf6964018d2fdaae536bdc2f9c700d51cf9a3583d97",
         "affectsGlobalScope": false
       },
       "./src/layouts/default/index.vue.ts": {
