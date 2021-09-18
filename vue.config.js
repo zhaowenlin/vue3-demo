@@ -104,6 +104,7 @@ module.exports = {
     // it can be accessed in index.html to inject the correct title.
     name: '<%= namespace%>',
     resolve: {
+      extensions: [".vue", ".ts", ".tsx"], // 加入ts 和 tsx
       alias: {
         '/@': resolve('src'),
       }

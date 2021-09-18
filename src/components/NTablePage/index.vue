@@ -18,8 +18,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Recordable } from 'perfintech'
-import { CreateAxiosOptions, RequestOptions, Result } from 'perfintech/lib/utils/axios/types'
 import { defineComponent, getCurrentInstance, PropType, ref, watch } from 'vue'
 export default defineComponent({
   name: 'NTablePage',
@@ -39,8 +37,16 @@ export default defineComponent({
       type: Array,
       default: ()=>[]
     },
-    // 表格请求参数化
+    // 表格请求参数
     reqParams: {
+      type: Object,
+      default: () => { return {}}
+    },
+    ajaxOption: {
+      type: Object,
+      default: () => { return {}}
+    },
+    requestOptions: {
       type: Object,
       default: () => { return {}}
     },
@@ -114,7 +120,7 @@ export default defineComponent({
     watch(()=>props.currentPage, (newVal)=> {
       internalCurrentPage.value = newVal
     })
-    const reqTableData = (params?: Recordable, ajaxOption?: CreateAxiosOptions, ext?: RequestOptions) => {
+    const reqTableData = (params?: Recordable) => {
       loading.value = true
       _global?.$ajax[props.method]({
         url: props.url,
@@ -125,12 +131,11 @@ export default defineComponent({
           ...props.reqParams,
           ...params
         },
-        ...ajaxOption,
+        ...props.ajaxOption,
       }, {
         lock: false,
-        ...ext
-      }).then((res: Result)=> {
-        res = res || {}
+        ...props.requestOptions
+      }).then((res)=> {
         const status = props?.beforeRequestHook?.()
         if (status === false) return
         internalTableData.value = res[props.resDataKey]
@@ -144,6 +149,10 @@ export default defineComponent({
         loading.value = false
       })
     }
+    watch(()=> { return { ...props.reqParams } }, (newVal)=> {
+      console.trace()
+      reqTableData(newVal)
+    })
     // 加载table数据
     reqTableData()
     // 切换页的时候重新加载table数据
@@ -164,11 +173,4 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
-.n-table-page {
-    .el-pagination {
-        margin: 10px auto;
-        text-align: center;
-    }
-}
-</style>
+

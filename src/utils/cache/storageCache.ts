@@ -4,7 +4,7 @@ import { EncryptionParams } from '/@/utils/cipher'
 
 import { AesEncryption } from '/@/utils/cipher'
 
-import { isNullOrUnDef } from 'perfintech'
+import { isNullOrUnDef } from '/@/utils/is'
 
 export interface CreateStorageParams extends EncryptionParams {
   prefixKey: string

@@ -11,7 +11,7 @@ import store from '/@/store'
 import { PROJ_CFG_KEY } from '/@/enums/cacheEnum'
 
 import { hotModuleUnregisterModule } from '/@/utils/helper/vuexHelper'
-import { deepMerge } from 'perfintech'
+import { deepMerge } from '/@/utils/main/index'
 import { Persistent } from '/@/utils/cache/persistent'
 
 export interface LockInfo {

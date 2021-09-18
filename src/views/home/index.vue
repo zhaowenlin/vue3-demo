@@ -13,6 +13,15 @@
       </template>
     </n-form>
 
+    <el-select v-model="value" placeholder="请选择">
+      <el-option
+        v-for="item in list"
+        :key="item.value"
+        :label="item.text"
+        :value="item.value"
+      />
+    </el-select>
+
     <NTablePage
       url="/table"
       border
@@ -22,44 +31,31 @@
       :finally-request-hook="finallyRequestHook"
     >
       <template #tableColumn>
-        <el-table-column
-          prop="a"
-          label="日期"
-          width="180"
-        />
-        <el-table-column
-          prop="b"
-          label="姓名"
-          width="180"
-        />
-        <el-table-column
-          prop="c"
-          label="地址1"
-        />
-        <el-table-column
-          prop="d"
-          label="地址2"
-        />
-        <el-table-column
-          prop="e"
-          label="地址3"
-        />
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="100"
-        >
+        <el-table-column prop="a" label="日期" width="180" />
+        <el-table-column prop="b" label="姓名" width="180" />
+        <el-table-column prop="c" label="地址1" />
+        <el-table-column prop="d" label="地址2" />
+        <el-table-column prop="e" label="地址3" />
+        <el-table-column fixed="right" label="操作" width="100">
           <template #default="scope">
-            <el-button type="text" size="small" @click="handleClick(scope.row)">查看</el-button>
+            <el-button
+              type="text"
+              size="small"
+              @click="handleClick(scope.row)"
+            >
+              查看
+            </el-button>
           </template>
         </el-table-column>
       </template>
     </NTablePage>
   </el-card>
 </template>
-<script lang="ts">
-import { computed, defineComponent, reactive, ref } from 'vue'
-import { NTablePage, NForm } from 'perfintech'
+<script lang="tsx">
+import { computed, defineComponent, reactive, Ref, ref } from 'vue'
+import NForm from '/@/components/NForm/index.vue'
+import NTablePage from '/@/components/NTablePage/index.vue'
+// import NForm from '../../components/NForm/index.vue'
 export default defineComponent({
   name: 'HelloWorld',
   components: {
@@ -75,14 +71,28 @@ export default defineComponent({
     const dateValue = ref(null)
 
     const test = ref(1)
+    const value = ref()
     const formData = reactive({})
 
     const testFormRef = ref(null)
+    const allList = [
+      {
+        text: '区域一',
+        value: 'true'
+      },
+      {
+        text: '区域二',
+        value: 'false'
+      }
+    ]
+    const code = ref('')
+    const list: Ref<Array<any>> = ref([])
+
     const formList = computed(() => {
-      return  [
+      return [
         {
           title: '用户名',
-          type: 'input',
+          type: 'text',
           key: 'username',
           defaultValue: 3,
           rule: { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -95,6 +105,11 @@ export default defineComponent({
           type: 'switch',
           key: 'qiehuan',
           defaultValue: true,
+          on: {
+            onChange: (value) => {
+              code.value = value
+            }
+          },
           props: {
             placeholder: '请输入用户名'
           }
@@ -111,42 +126,37 @@ export default defineComponent({
         },
         {
           title: 'radio',
-          type: 'radio-group',
+          type: 'select',
           key: 'radio',
           defaultValue: '1',
           props: {
             placeholder: '请输入用户名'
           },
-          options:[{
-            text: '是',
-            value: '1'
-          },
-          {
-            text: '否',
-            value: '0'
-          }]
+          options: [
+            {
+              text: '是',
+              value: '1'
+            },
+            {
+              text: '否',
+              value: '0'
+            }
+          ]
         },
         {
           title: '区域',
           type: 'select',
           key: 'password',
-          defaultValue: 'beijing',
+          defaultValue: 'false',
           rule: { required: true, message: '请输入密码', trigger: 'change' },
           on: {
-            onChange(value){
+            onChange(value) {
               console.log(testFormRef, value)
             }
-
           },
-          options:[{
-            text: '区域一',
-            value: 'shanghai'
-          },
-          {
-            text: '区域二',
-            value: 'beijing'
-          }]
-
+          options: allList.filter((item: any) => {
+            return item.value === code.value + ''
+          })
         },
         {
           title: 'CheckBox',
@@ -154,27 +164,24 @@ export default defineComponent({
           key: 'checkbox',
           defaultValue: ['shanghai'],
           rule: { required: true, message: 'CheckBox', trigger: 'change' },
-          options:[{
-            text: '区域一',
-            value: 'shanghai'
-          },
-          {
-            text: '区域二',
-            value: 'beijing'
-          }]
-
-        }, {
-          title: '生日',
-          type: 'datetimerange',
-          key: 'birthday'
-        }]
+          options: [
+            {
+              text: '区域一',
+              value: 'shanghai'
+            },
+            {
+              text: '区域二',
+              value: 'beijing'
+            }
+          ]
+        }
+      ]
     })
 
-    const submit = (value)=> {
+    const submit = (value) => {
       console.log(value)
-
     }
-    const handleClick = (values)=> {
+    const handleClick = (values) => {
       console.log(values)
     }
     const reqParams = reactive({
@@ -184,21 +191,25 @@ export default defineComponent({
     const finallyRequestHook = () => {
       console.log('finally')
     }
-    const beforeRequestHook=()=> {
+    const beforeRequestHook = () => {
       console.log('before')
     }
-    const afterRequestHook = (val)=>{
+    const afterRequestHook = (val) => {
       console.log('after', val)
     }
-    const tableData = ref([{
-      date: '2016-05-03',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      zip: 200333
-    }])
+    const tableData = ref([
+      {
+        date: '2016-05-03',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }
+    ])
     return {
+      value,
+      list,
       tableData,
       afterRequestHook,
       beforeRequestHook,

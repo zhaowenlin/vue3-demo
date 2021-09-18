@@ -1,5 +1,5 @@
 // traverse, cached, makeMap
-import { isFunction, isObject, isArray } from 'perfintech'
+import { isFunction, isObject, isArray } from './is'
 export const cached = (fn: (...args: any[]) => any) => {
   const cache = Object.create(null)
   return function cachedFn(str: string, ...arg: any[]) {

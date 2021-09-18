@@ -2,26 +2,25 @@
   <div :style="getStyle" :class="getMenuClass">
     <el-scrollbar id="menuList">
       <el-menu
-
         :collapse="isCollapse"
         :default-active="activeIndex"
         @select="handleSelect"
       >
         <template v-for="(v, i) of menus" :key="v.name">
-          <el-submenu v-if="v.children" :index="v.children ? i + '' : v.path">
+          <el-submenu v-if="v.children && !v.meta?.hideMenu && !v.meta?.single" :index="v.children ? i + '' : v.path">
             <template #title>
               <i class="menu-icon" :class="v.meta?.icon"></i>
               <span>{{ v.meta.title }}</span>
             </template>
             <el-menu-item
-              v-for="vv of v.children"
-              :key="vv.name"
-              :index="vv.path"
-            >
+                v-for="vv of v.children"
+                :key="vv.name"
+                :index="vv.path"
+              >
               {{ vv.meta?.title }}
             </el-menu-item>
           </el-submenu>
-          <el-menu-item v-else class="board-menu" :index="v.path">
+          <el-menu-item v-if="(!v.children && !v.meta?.hideMenu) || v.meta?.single" class="board-menu" :index="v.path">
             <i class="menu-icon" :class="v.meta?.icon"></i>
             <span>{{ v.meta?.title }}</span>
           </el-menu-item>

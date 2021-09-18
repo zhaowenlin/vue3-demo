@@ -1,6 +1,6 @@
 import { ref, computed, unref } from 'vue'
 import { createPageContext } from '/@/utils/hooks/component/usePageContext'
-import { useWindowSizeFn } from 'perfintech'
+import { useWindowSizeFn } from '/@/utils/event/useWindowSizeFn'
 export const headerHeightRef = ref(0)
 
 export function useContentViewHeight() {

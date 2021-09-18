@@ -1,13 +1,11 @@
 import { FunctionalComponent } from 'vue'
 import { RouteLocation } from 'vue-router'
 import { computed, ref, unref } from 'vue'
-import { tryTsxEmit } from 'perfintech'
+import { tryTsxEmit } from '/@/utils/helper/vuexHelper'
 import { tabStore, PAGE_LAYOUT_KEY } from '/@/store/modules/tab'
 
 import { useRouter } from 'vue-router'
 import { useRootSetting } from '/@/utils/hooks/root/useRootSetting'
-
-const ParentLayoutName = 'ParentLayout'
 
 export function getKey(
   component: FunctionalComponent & { type: Indexable; },
@@ -20,19 +18,14 @@ export function useCache(isPage: boolean) {
   const name = ref('')
   const { currentRoute } = useRouter()
 
-  tryTsxEmit(instance => {
-    const routeName = instance.type.name
-    if (routeName && ![ParentLayoutName].includes(routeName)) {
-      name.value = routeName
-    } else {
-      const matched = currentRoute.value?.matched
-      if (!matched) {
-        return
-      }
-      const len = matched.length
-      if (len < 2) return
-      name.value = matched[len - 2].name as string
+  tryTsxEmit(() => {
+    const matched = currentRoute.value?.matched
+    if (!matched) {
+      return
     }
+    const len = matched.length
+    if (len < 2) return
+    name.value = matched[len - 2].name as string
   })
 
   const { getOpenKeepAlive } = useRootSetting()

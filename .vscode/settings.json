@@ -23,10 +23,10 @@
         "source.fixAll": true
     },
     "[javascript]": {
-        "editor.formatOnSave": false
+      "editor.formatOnSave": false
     },
     "[vue]": {
-        "editor.defaultFormatter": "octref.vetur"
+      "editor.defaultFormatter": "octref.vetur"
     },
     //保存自动格式化
   "editor.formatOnSave": false,

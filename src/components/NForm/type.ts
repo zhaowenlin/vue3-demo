@@ -1,6 +1,3 @@
-import { IObj } from 'perfintech'
-
-
 
 import { RuleItem } from 'async-validator'
 import { VNode } from 'vue'
@@ -14,29 +11,36 @@ export interface FormItem {
     rule?: NFormItemRules
     key: string
     type: string
+    span?: number
     title?: string
-    isShow?:  boolean & FormItemIsShow
+    isShow?: boolean & FormItemIsShow
+    showTips?: boolean
+    showSuffix?: boolean
+    tipMsg?: string
+    suffixMsg?: string
+    tipIcon?: string
+    condition: boolean & FormItemIsShow
     props?: NObj
     options?: FormItemOptions[] | undefined
     renderOption?: (option: FormItemOptions, item: FormItem) => void
     text?: string
     required?: boolean
-    renderTitle?: (item: FormItem, form: IObj) => VNode
-    render?: (parentDom: VNode, item: FormItem, form: IObj) => VNode
-    renderContent?: (dom: VNode,item: FormItem, form: IObj) => VNode
-    onInput?: (value: any, item: FormItem, form: IObj ) => void
-    settings?: IObj
-    attrs?: IObj
+    renderTitle?: (item: FormItem, form: NObj) => VNode
+    render?: (item: FormItem, form: NObj) => VNode
+    renderContent?: (item: FormItem, form: NObj) => VNode
+    onInput?: (value: any, item: FormItem, form: NObj ) => void
+    settings?: NObj
+    attrs?: NObj
     border?: boolean
     width?: number
-    on?: IObj
-    nativeOn?: IObj
+    on?: NObj
+    nativeOn?: NObj
 
 
 
 }
 interface FormItemIsShow {
-    (form: IObj, item: FormItem): boolean
+    (form: NObj, item: FormItem): boolean
 }
 export interface FormItemOptions {
     text: string
@@ -53,11 +57,10 @@ export declare type VNodeArrayChildren = Array<VNodeArrayChildren | VNodeChildAt
 export declare type RawChildren = string | number | boolean | VNode | VNodeArrayChildren | (() => any);
 export interface TagItem {
     tagName: string
-    props?: IObj
+    props?: NObj
     item: FormItem
-    nativeOn?: IObj
+    nativeOn?: NObj
     children?: VNode[] | string
-    on?: IObj
+    on?: NObj
 }
 export declare type GridArray = number[]
-

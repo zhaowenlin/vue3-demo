@@ -1,7 +1,7 @@
 import { RouteLocationRaw } from 'vue-router'
 
 import { PageEnum } from '/@/enums/pageEnum'
-import { isString } from 'perfintech'
+import { isString } from '/@/utils/is'
 import { unref } from 'vue'
 
 import router from '/@/router'

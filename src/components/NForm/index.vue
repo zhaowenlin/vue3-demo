@@ -1,15 +1,14 @@
-
 <script lang="ts">
-import { FormItem, FormItemOptions, GridArray, TagItem } from './type'
+import { FormItem, FormItemOptions, GridArray, RawChildren, RawSlots, TagItem } from './type'
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
   h,
   PropType,
   VNode,
   reactive,
-  ref
+  ref,
+  nextTick
 } from 'vue'
 import {
   ElForm,
@@ -29,10 +28,11 @@ import {
   ElRow,
   ElCol,
   ElInputNumber,
-  ElCascader
+  ElCascader,
+  ElUpload
 } from 'element-plus'
-import { ValidateFieldCallback } from 'element-plus/lib/el-form'
-import { isArray } from 'perfintech'
+import { isArray, isFunction } from '/@/utils/is'
+import { ElTooltip } from 'element-plus'
 const getPrefix = (tag: string, lib: string) => {
   const iviewMap = {
     form: 'i-form',
@@ -55,6 +55,7 @@ const getPrefix = (tag: string, lib: string) => {
     cascader: 'cascader'
   }
   const elementMap = {
+    upload: ElUpload,
     form: ElForm,
     'form-item': ElFormItem,
     input: ElInput,
@@ -206,10 +207,9 @@ export default defineComponent({
       })
       return form
     }
-    const form = reactive(initForm())
+    let form = reactive(initForm())
     const formRef = ref(null)
     // end ---------------
-
 
     // computed
     const rules = computed(() => {
@@ -228,13 +228,6 @@ export default defineComponent({
         emit('submit', form, valid)
       })
     }
-
-    // 操作函数
-    const getHypeScript = () => {
-      // @ts-ignore
-      const { ctx } = getCurrentInstance()
-      return ctx?.$parent.$createElement
-    }
     const renderTitle = (item: FormItem) => {
       const titleDom = h(
         'span',
@@ -251,25 +244,44 @@ export default defineComponent({
       return h('span', {}, titleArr)
     }
     const getFormItem = (item: FormItem, content: VNode): VNode | undefined => {
-      if (item.isShow === false) return
-      else if (typeof item.isShow === 'function') {
-        if (item.isShow(form, item) === false) {
-          return
-        }
+      if (item.condition === false) return
+      if (isFunction(item.condition) && item.condition(form, item) === false) {
+        return
       }
       if (typeof item.render === 'function') {
-        return item.render(getHypeScript(), item, form)
+        return item.render(item, form)
       } else {
+        const nodes = [content]
         const settings = {
           key: item.key,
           prop: item.key
+        }
+        if (item.showTips) {
+          nodes.push(
+            h(
+              ElTooltip,
+              {
+                content: item.tipMsg,
+                placement: 'top',
+                class: 'tips-msg',
+                style: {
+                  'font-size': '18px',
+                  'vertical-align': 'middle'
+                }
+              },
+              h(ElButton, {
+                type: 'text',
+                icon: item.tipIcon || 'el-icon-question'
+              })
+            )
+          )
         }
         return h(
           getPrefix('form-item', props.lib),
           Object.assign(settings, item.settings),
           {
             label: () => renderTitle(item),
-            default: () => content
+            default: () => nodes
           }
         )
       }
@@ -301,7 +313,7 @@ export default defineComponent({
     // 生产 tag
     const generateTag = (tag: TagItem) => {
       const { tagName, props: tagProps, children, on = {}, nativeOn = {} } = tag
-      const item: FormItem = tag.item || {}
+      const item: FormItem = tag.item
       const currProps = {
         ...tagProps,
         disabled: tagProps?.disabled || item.disabled
@@ -309,11 +321,18 @@ export default defineComponent({
       const attrs = item.attrs || {}
       const itemOn = item.on || {}
       const itemNativeOn = item.nativeOn || {}
+
       let childrenNodes: any[] = []
       if (isArray(children)) {
         childrenNodes = children || []
       } else if (children) {
         childrenNodes.push(children)
+      }
+      const renderDom: RawChildren | RawSlots = {
+        default: () => [...childrenNodes, slots.default?.()]
+      }
+      if (item.type === 'input' && item.showSuffix) {
+        renderDom.append = () => item.suffixMsg
       }
       return h(
         tagName,
@@ -324,12 +343,31 @@ export default defineComponent({
           ...on,
           ...itemNativeOn,
           ...nativeOn,
+          style: {
+            width: item.showTips ? '88%' : '100%'
+          },
           modelValue: form[item.key],
-          'onUpdate:modelValue': (val)=> {
+          'onUpdate:modelValue': val => {
             form[item.key] = val
           }
         },
-        [...childrenNodes,  slots.default?.()]
+        renderDom
+      )
+    }
+    const renderUpload = (item: FormItem) => {
+      const tag = {
+        item,
+        tagName: getPrefix('upload', props.lib)
+      }
+      return generateTag(tag)
+    }
+    const renderText = (item: FormItem) => {
+      return h(
+        'span',
+        {
+          ...item.attrs
+        },
+        form[item.key]
       )
     }
     // 渲染 input
@@ -362,7 +400,6 @@ export default defineComponent({
             emitInput(value, item)
           },
           onKeydown: (e: KeyboardEvent) => {
-            console.log('keydown')
             if (
               e.keyCode === 13 &&
               props.enterSubmit &&
@@ -565,6 +602,9 @@ export default defineComponent({
     const getContent = (item: FormItem): VNode => {
       let content: any
       switch (item.type) {
+        case 'text':
+          content = renderText(item)
+          break
         case 'input':
           content = renderInput(item)
           break
@@ -610,9 +650,12 @@ export default defineComponent({
         case 'cascader':
           content = renderCascader(item)
           break
+        case 'upload':
+          content = renderUpload(item)
+          break
         default:
           if (typeof item.renderContent === 'function') {
-            content = item.renderContent(getHypeScript(), item, form)
+            content = item.renderContent(item, form)
           }
           break
       }
@@ -637,17 +680,19 @@ export default defineComponent({
       // 过滤 grid
       let grid = ~~Math.abs(props.grid)
       if (grid < 1) grid = 1
-      for (let i = 0; i < props.formList.length; i += grid) {
+      const formList = props.formList.filter(item => item.isShow !== false)
+      for (let i = 0; i < formList.length; i += grid) {
         const childrenList: VNode[] = []
         // 获取当前分成几列 grid 为 number 时
-        for (let j = 0; j < grid && i + j < props.formList.length; j++) {
-          const children = props.formList[i + j]
+        for (let j = 0; j < grid && i + j < formList.length; j++) {
+          const children = formList[i + j]
           if (!children) break
           const childrenItem = getFormItem(children, getContent(children))
           const childrenParts = h(
             getPrefix('col', props.lib),
             {
-              span: 24 / grid
+              // @ts-ignore
+              span: +children.span || 24 / grid
             },
             [childrenItem]
           )
@@ -662,7 +707,7 @@ export default defineComponent({
     const getFormListByArray = () => {
       const list: VNode[] = []
       let gridIndex = 0
-      if (!(props.grid instanceof Array)) return
+      if (!isArray(props.grid)) return
       for (let i = 0; i < props.formList.length; ) {
         const childrenList: VNode[] = []
         const grid = props.grid[gridIndex]
@@ -724,7 +769,7 @@ export default defineComponent({
     // 根据formList渲染form表单
     const renderFormList = () => {
       let list: any[] | undefined = []
-      const grid = props.grid
+      const grid: number[] | number = props.grid || []
       // 处理 grid 为不同值时
       if (typeof grid === 'number') {
         list = getFormListByNumber()
@@ -745,11 +790,40 @@ export default defineComponent({
       // @ts-ignore
       formRef.value?.clearValidate()
     }
+    // 情况表单数据
+    const clearFormData = () => {
+      form = reactive(initForm())
+    }
+    // 设置表单项值
+    const setForm = (data: any) => {
+      for (const key in data) {
+        form[key] = data[key]
+      }
+      nextTick(() => {
+        clear()
+      })
+    }
     // 清空 form 表单
     const reset = () => {
       clear()
       // @ts-ignore
       formRef.value?.resetFields()
+    }
+    const validate = () => {
+      let valid = false
+      // @ts-ignore
+      formRef.value.validate((res: any) => {
+        valid = res
+      })
+      return valid
+    }
+    // 验证表单项
+    const validateField = (
+      props: string | string[],
+      callback
+    ) => {
+      // @ts-ignore
+      formRef.value.validateField(props, callback)
     }
 
     //  提交按钮渲染函数
@@ -760,7 +834,8 @@ export default defineComponent({
           h(
             getPrefix('button', props.lib),
             {
-              type: 'primary',style: {
+              type: 'primary',
+              style: {
                 'margin-left': '10px',
                 'margin-right': '10px'
               },
@@ -785,33 +860,24 @@ export default defineComponent({
           )
         )
       }
-      return h('div', {
-        className: 'footer',
-        style: {
-          marginBottom: '20px',
-          textAlign: props.footerAlign || 'center'
+      return h(
+        'div',
+        {
+          className: 'footer',
+          style: {
+            marginBottom: '20px',
+            textAlign: props.footerAlign || 'center'
+          }
         },
-      }, btns)
-    }
-    // 设置表单项值
-    const setForm = (form: any) => {
-      for (const key in form) {
-        form[key] = form[key]
-      }
-    }
-    // 验证表单项
-    const validateField = (
-      props: string | string[],
-      callback: ValidateFieldCallback
-    ) => {
-      // @ts-ignore
-      formRef.value.validateField(props, callback)
+        btns
+      )
     }
     // end---------------------
 
-
     // 导出外部可以操作的函数
     return {
+      clearFormData,
+      validate,
       clear,
       reset,
       setForm,
@@ -824,9 +890,17 @@ export default defineComponent({
       submit,
       slots
     }
-
   },
-  render(){
+  render() {
+    const children =
+      [
+        this.slots?.prepend?.(),
+        this.renderFormList(),
+        !this.notCtrl && this.renderSubmit()
+      ]
+    if (isFunction(this.slots.default) ) {
+      children.push(this.slots.default())
+    }
     return h(
       getPrefix('form', this.lib),
       {
@@ -834,9 +908,7 @@ export default defineComponent({
         class: this.className,
         rules: this.rules,
         'label-width':
-            this.lib === 'iview'
-              ? this['labelWidth']
-              : this['labelWidth'] + 'px',
+          this.lib === 'iview' ? this['labelWidth'] : this['labelWidth'] + 'px',
         ...this.options,
         ref: 'formRef',
         submit(e: Event) {
@@ -844,9 +916,8 @@ export default defineComponent({
           e.stopPropagation()
         }
       },
-      [this.slots?.prepend?.(), this.renderFormList(), !this.notCtrl && this.renderSubmit(), this.slots.default?.()]
+      children
     )
   }
 })
 </script>
-
